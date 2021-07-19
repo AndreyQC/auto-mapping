@@ -35,25 +35,26 @@ regex_num2 = re.compile(re4)
 s = regex_num2.search(newstr2) 
 #print(newstr2)
 newstr3 = newstr2[0:int(s.start())]
-newstr3 = newstr3.split()
 #print(newstr3)
 
 
 columns = list()
-dud = []
-cou = 0
-for i in range(len(newstr3)):
-    if '`' in newstr3[i]:
-        dud.append(cou)
-    cou += 1
+
+newstr3 = ''.join(newstr3.split())
+newstr3 = newstr3.split('`')
+newstr3 = newstr3[1:]
 
 
-for i in range(len(dud)-1):
+for i in range(0, len(newstr3)-1, 2):
     col = dict()
-    something = newstr3[dud[i]+1:dud[i+1]]
-    col["name"] = newstr3[dud[i]]
-    col["type"] = something
+    col["name"] = newstr3[i]
+    if '(' in newstr3[i+1]:
+        newstr3[i+1] = newstr3[i+1].replace('(', ' (' ,1)
+        col["type"] = newstr3[i+1][0:-1]
+    else:
+        col["type"] = newstr3[i+1][0:-1]
     columns.append(col)
+
 table["columns"] = columns
 
 
